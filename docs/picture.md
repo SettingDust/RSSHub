@@ -372,7 +372,7 @@ R18 显示
 
 ### 无聊图
 
-<Route author="Xuanwo xyqfer 9uanhuo" example="/jandan/pic" path="/jandan/:sub_model" :paramsDesc="['煎蛋板块名称']"/>
+<Route author="kobemtl Xuanwo xyqfer 9uanhuo" example="/jandan/pic" path="/jandan/:sub_model" :paramsDesc="['煎蛋板块名称']"/>
 
 | 无聊图 | 无聊图热榜 | 4 小时热榜 | 女装 | 随手拍 | 随手拍热榜 | 动物园 | 大杂烩 |
 | ------ | ---------- | ---------- | ---- | ------ | ---------- | --- | --- |
