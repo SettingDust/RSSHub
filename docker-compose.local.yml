@@ -1,0 +1,55 @@
+services:
+  rsshub:
+    # two ways to enable puppeteer:
+    # * comment out marked lines, then use this image instead: diygod/rsshub:chromium-bundled
+    # * (consumes more disk space and memory) leave everything unchanged
+    build:
+      context: .
+    restart: always
+    ports:
+      - '1200:1200'
+    environment:
+      NODE_ENV: production
+      CACHE_TYPE: redis
+      REDIS_URL: 'redis://redis:6379/'
+      PUPPETEER_WS_ENDPOINT: 'ws://browserless:3000' # marked
+      PROXY_URI: socks5h://host.docker.internal:2080
+      ALLOW_USER_HOTLINK_TEMPLATE: true
+      PIXIV_REFRESHTOKEN: CCT8rxyZNJQysOstCVJRfzhtadzM5cl6m2UoCqF2jCU
+      BILIBILI_COOKIE_502884: header_theme_version=OPEN; home_feed_column=5; browser_resolution=1758-1122; buvid_fp=b5a3175ca3f689f81db2f5b0866c4e53; buvid4=5B1D1467-3AE2-60CA-37FA-A97638CF2F1E12350-023100114-pq5u7Eiyhe8FmsGHdJQdxg%3D%3D; SESSDATA=166cafc3%2C1767357158%2C464c2%2A72CjBHAH0X1ovLzJJndgJVoUgEo5rIUe1FgM0IbDbHEasUe5PFhRQNdWJDQBy7Yd2GtDUSVjVGM1FRUHo5QUlzMlUzbkNZdFhzdXRIblFTNnVlYlRNblBkLUhLZnlPb3ZmOFRseTIxcDc2al9qRzVkd29JQ0xzZEdJdm0zOEJETWhUaF9oazFRcXdnIIEC; bili_jct=f356c127c799d8fa755b3387e123e38d; DedeUserID=502884; DedeUserID__ckMd5=156b77a3ddc1aa28; CURRENT_FNVAL=4048; rpdid=|(u))YlmYYu|0J'uYmYuR|J)u; LIVE_BUVID=AUTO5016961439739338; fingerprint=b5a3175ca3f689f81db2f5b0866c4e53; buvid_fp_plain=undefined; enable_web_push=DISABLE; blackside_state=0; CURRENT_BLACKGAP=0; is-2022-channel=1; _uuid=355EF645-A631-CE26-C566-BE462FAE7510C11369infoc; buvid3=642C0BEC-870B-D9CD-B5FC-E01E77858A3812527infoc; b_nut=1727676311; theme_style=dark; hit-dyn-v2=1; enable_feed_channel=ENABLE; CURRENT_QUALITY=80; bp_t_offset_502884=1086332739671556096; theme-tip-show=SHOWED; theme-avatar-tip-show=SHOWED; theme-switch-show=SHOWED; bili_ticket=eyJhbGciOiJIUzI1NiIsImtpZCI6InMwMyIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTE4OTQ5NTksImlhdCI6MTc1MTYzNTY5OSwicGx0IjotMX0.2RaHRHX84zuT_2vjU3QjgMmmHhWVZ7nQ9XiTPgOhoJ4; bili_ticket_expires=1751894899; b_lsid=A91018CB3_197DFB93AE4; share_source_origin=COPY; bsource_origin=qqbrowser_app; match_float_version=ENABLE; bsource=search_google; timeMachine=0; sid=hc69xvb7
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:1200/healthz']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - redis
+      - browserless # marked
+
+  browserless: # marked
+    image: browserless/chrome # marked
+    restart: always # marked
+    ulimits: # marked
+      core: # marked
+        hard: 0 # marked
+        soft: 0 # marked
+    healthcheck: # marked
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/pressure'] # marked
+      interval: 30s # marked
+      timeout: 10s # marked
+      retries: 3 # marked
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  redis-data:
