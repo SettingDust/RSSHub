@@ -422,6 +422,11 @@ export type Config = {
     smzdm: {
         cookie?: string;
     };
+    private: {
+        northplus: {
+            cookie?: string;
+        };
+    };
 };
 
 const value: Config | Record<string, any> = {};
@@ -887,6 +892,11 @@ const calculateValue = () => {
         },
         smzdm: {
             cookie: envs.SMZDM_COOKIE,
+        },
+        private: {
+            northplus: {
+                cookie: envs.NORTHPLUS_COOKIE,
+            },
         },
     };
 
