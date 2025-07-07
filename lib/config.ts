@@ -426,6 +426,9 @@ export type Config = {
         northplus: {
             cookie?: string;
         };
+        vikacg: {
+            cookie?: string;
+        };
     };
 };
 
@@ -896,6 +899,9 @@ const calculateValue = () => {
         private: {
             northplus: {
                 cookie: envs.NORTHPLUS_COOKIE,
+            },
+            vikacg: {
+                cookie: envs.VIKACG_COOKIE,
             },
         },
     };
