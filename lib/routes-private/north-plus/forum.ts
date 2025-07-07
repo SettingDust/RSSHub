@@ -40,7 +40,7 @@ export const route: Route = {
         let title = $('title').text();
         title = title.slice(0, Math.max(0, title.indexOf(' - '))).replace('| ', ' < ');
         if (type) {
-            title = `${$('.threadlist .current > a').text()} < ${title}`;
+            title = `${$(`#thread_type_${type} > a`).text()} < ${title}`;
         }
         return <Data>{
             title,
