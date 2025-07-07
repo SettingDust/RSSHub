@@ -96,7 +96,7 @@ export const route: Route = {
                         description: $('div.post-info > div.post-excerpt').text(),
                         author: $('a.post-list-meta-avatar').attr('href'),
                         category: [$('.post-list-cat').text()],
-                        image: $('.post-module-thumb source').data('src'),
+                        image: $('.post-thumb').data('src'),
                     };
                 }),
         };
